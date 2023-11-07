@@ -33,11 +33,12 @@ class LoadingWindow(QMainWindow):
         # Make the window topmost
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
+    #Location on the screen
     def centerOnScreen(self):
         screen = QApplication.desktop().screenGeometry()
         window_size = self.geometry()
         x = (screen.width() - window_size.width()) // 2
-        y = (screen.height() - window_size.height()) // 2
+        y = (9 * screen.height() - 10 * window_size.height()) // 10
         self.move(x, y)
 
     def update_loading_bar(self, value):
