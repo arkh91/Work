@@ -46,8 +46,9 @@ class LoadingWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Loading all functions")
-        self.setGeometry(100, 100, 400, 100)
+        self.setWindowTitle("Loading Bar")
+        self.setGeometry(0, 0, 400, 100)
+        self.centerOnScreen()
 
         self.loading_bar = QProgressBar(self)
         self.loading_bar.setGeometry(10, 10, 380, 30)
@@ -56,6 +57,13 @@ class LoadingWindow(QMainWindow):
         self.loading_thread = LoadingThread()
         self.loading_thread.update_signal.connect(self.update_loading_bar)
         self.loading_thread.start()
+
+    def centerOnScreen(self):
+        screen = QApplication.desktop().screenGeometry()
+        window_size = self.geometry()
+        x = (screen.width() - window_size.width()) // 2
+        y = (screen.height() - window_size.height()) // 2
+        self.move(x, y)
 
     def update_loading_bar(self, value):
         self.loading_bar.setValue(value)
