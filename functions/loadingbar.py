@@ -1,36 +1,7 @@
-from tqdm import tqdm   #pip install tqdm
-import tkinter as tk
-from tkinter import ttk
-import time
-
-
-
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar #pip install PyQt5
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
 import time
-
-
-def Loadingbar():
-    '''
-    # Define the total number of iterations or tasks
-    total_iterations = 100
-
-    # Create a tqdm object with the total number of iterations
-    with tqdm(total=total_iterations, desc="Loading") as pbar:
-        for i in range(total_iterations):
-            # Simulate some work
-            time.sleep(0.01)
-
-            # Update the loading bar
-            pbar.update(1)
-
-    print("Loading complete!")
-    '''
-    app = QApplication(sys.argv)
-    window = LoadingWindow()
-    window.show()
-    sys.exit(app.exec_())
 
 class LoadingThread(QThread):
     update_signal = pyqtSignal(int)
@@ -46,17 +17,21 @@ class LoadingWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Loading Bar")
+        self.setWindowTitle("Topmost Loading Window")
         self.setGeometry(0, 0, 400, 100)
         self.centerOnScreen()
 
         self.loading_bar = QProgressBar(self)
-        self.loading_bar.setGeometry(10, 10, 380, 30)
+        self.loading_bar.setGeometry(20, 40, 350, 30)
         self.loading_bar.setValue(0)
 
         self.loading_thread = LoadingThread()
         self.loading_thread.update_signal.connect(self.update_loading_bar)
+        self.loading_thread.finished.connect(self.cleanup)  # Connect to the cleanup method
         self.loading_thread.start()
+
+        # Make the window topmost
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
     def centerOnScreen(self):
         screen = QApplication.desktop().screenGeometry()
@@ -68,4 +43,15 @@ class LoadingWindow(QMainWindow):
     def update_loading_bar(self, value):
         self.loading_bar.setValue(value)
         if value == 100:
-            self.close()
+            self.loading_thread.quit()  # Stop the thread when loading is complete
+
+    def cleanup(self):
+        # Perform cleanup tasks here
+        print("Cleanup tasks here")
+        self.close()
+
+def Loadingbar():
+    app = QApplication(sys.argv)
+    window = LoadingWindow()
+    window.show()
+    sys.exit(app.exec_())
