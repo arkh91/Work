@@ -1,6 +1,6 @@
 import pyautogui    #pip install pyautogui
 import subprocess   #Launch apps
-
+import threading
 import os
 import importlib
 
@@ -21,17 +21,34 @@ def Loading_functions():
     # Print the list of imported file names
     print("Imported files:")
     for file_name in imported_files:
-        Loadingbar()
         print(file_name)
+
+def first_thread():
+    Loadingbar()
+
+def second_thread():
+    # print("Loading all codes")
+    #Loadingbar()
+    print("Launching Chrome: \n")
+    launch_chrome()
+    apps()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #print("Loading all codes")
     Loading_functions()
-    print("Launching Chrome: \n")
-    launch_chrome()
 
+    # Create and start the threads
+    Loadin_window = threading.Thread(target=first_thread)
+    #Loading_everything = threading.Thread(target=second_thread, args=(port, folder_name_str))
+    Loading_everything = threading.Thread(target=second_thread)
 
+    # Start the threads
+    Loadin_window.start()
+    Loading_everything.start()
+
+    # Join the threads to ensure they finish before exiting
+    Loadin_window.join()
+    Loading_everything.join()
 
 
 
