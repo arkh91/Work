@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar
-from PyQt5.QtCore import QThread, pyqtSignal, Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar # pip install PyQt5
+from PyQt5.QtCore import QThread, pyqtSignal, Qt                    # pip install PyQt5-tools
 import time
 
 class LoadingThread(QThread):
