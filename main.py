@@ -31,7 +31,7 @@ def second_thread():
     #Loadingbar()
     print("Launching Chrome: \n")
     launch_chrome()
-    apps()
+    apps_folder()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
