@@ -17,7 +17,7 @@ class LoadingWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Topmost Loading Window")
+        self.setWindowTitle("Loading Apps ...")
         self.setGeometry(0, 0, 400, 100)
         self.centerOnScreen()
 
