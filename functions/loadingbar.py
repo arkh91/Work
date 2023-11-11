@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar
+from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar, QLabel
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 import time
 
@@ -18,22 +18,27 @@ class LoadingWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle("Loading Apps ...")
-        self.setGeometry(0, 0, 400, 100)
+        self.setGeometry(0, 0, 400, 150)  # Increased height to accommodate the message label
         self.centerOnScreen()
 
+        # Message Label
+        self.message_label = QLabel("Loading in progress...", self)
+        self.message_label.setGeometry(20, 10, 350, 20)
+
+        # Loading Bar
         self.loading_bar = QProgressBar(self)
         self.loading_bar.setGeometry(20, 40, 350, 30)
         self.loading_bar.setValue(0)
 
         self.loading_thread = LoadingThread()
         self.loading_thread.update_signal.connect(self.update_loading_bar)
-        self.loading_thread.finished.connect(self.cleanup)  # Connect to the cleanup method
+        self.loading_thread.finished.connect(self.cleanup)
         self.loading_thread.start()
 
         # Make the window topmost
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
-    #Location on the screen
+    # Location on the screen
     def centerOnScreen(self):
         screen = QApplication.desktop().screenGeometry()
         window_size = self.geometry()
@@ -48,7 +53,7 @@ class LoadingWindow(QMainWindow):
 
     def cleanup(self):
         # Perform cleanup tasks here
-        #print("Cleanup tasks here")
+        self.message_label.setText("Loading complete!")  # Update the message
         self.close()
 
 def Loadingbar():
