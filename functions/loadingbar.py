@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar # pip install PyQt5
-from PyQt5.QtCore import QThread, pyqtSignal, Qt                    # pip install PyQt5-tools
+from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
 import time
 
 class LoadingThread(QThread):
@@ -48,7 +48,7 @@ class LoadingWindow(QMainWindow):
 
     def cleanup(self):
         # Perform cleanup tasks here
-        print("Cleanup tasks here")
+        #print("Cleanup tasks here")
         self.close()
 
 def Loadingbar():
